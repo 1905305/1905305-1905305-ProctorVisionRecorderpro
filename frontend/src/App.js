@@ -1,8 +1,8 @@
 // src/App.jsx
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { storage } from "./firebase"; // make sure your firebaseConfig exports storage
-
 import React, { useEffect, useRef, useState } from "react";
+import { ref, uploadBytes } from "firebase/storage";
+import { db, storage as firebaseStorage } from './firebase'; // renamed to avoid conflict
+
 import { FaceMesh } from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
 
@@ -11,10 +11,9 @@ import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import * as tf from "@tensorflow/tfjs";
 
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db, storage } from './firebase';
-
 
 import "./styles/app.css";
+
 
 function App() {
   const videoRef = useRef(null);
@@ -71,7 +70,7 @@ function App() {
       mediaRecorder.onstop = async () => {
         const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
         const fileName = `${candidateName}_${Date.now()}.webm`;
-        const storageRef = ref(storage, `videos/${fileName}`);
+        const storageRef = ref(firebaseStorage, `videos/${fileName}`);
         try {
           await uploadBytes(storageRef, blob);
           console.log("Video uploaded ✅", fileName);
