@@ -1,6 +1,6 @@
 // src/App.jsx
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { storage } from "./firebaseConfig"; // make sure your firebaseConfig exports storage
+import { storage } from "./firebase"; // make sure your firebaseConfig exports storage
 
 import React, { useEffect, useRef, useState } from "react";
 import { FaceMesh } from "@mediapipe/face_mesh";
@@ -11,7 +11,8 @@ import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import * as tf from "@tensorflow/tfjs";
 
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { db, storage } from './firebase';
+
 
 import "./styles/app.css";
 
